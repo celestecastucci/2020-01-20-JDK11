@@ -40,6 +40,8 @@ public class ArtsmiaController {
 
     @FXML
     private TextArea txtResult;
+    
+    
 
     @FXML
     void doArtistiConnessi(ActionEvent event) {
@@ -54,8 +56,27 @@ public class ArtsmiaController {
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
+    	
     	txtResult.clear();
-    	txtResult.appendText("Calcola percorso");
+    	Integer id;
+    	
+    	try {
+    		id = Integer.parseInt(txtArtista.getText());
+    	} catch(NumberFormatException e) {
+    		txtResult.appendText("INSERIRE UN ID NEL FORMATO CORRETTO\n");
+    		return ;
+    	}
+    	
+    	if(!this.model.grafoContiene(id)) {
+    		txtResult.appendText("L'ARTISTA NON E' NEL GRAFO!\n");
+    		return ;
+    	}
+    	
+    	List<Integer> percorso = this.model.trovaPercorso(id);
+    	txtResult.appendText("PERCORSO PIU' LUNGO: " + percorso.size() + " \n");
+    	for(Integer v : percorso) {
+    		txtResult.appendText(v + " ");
+    	}
     }
 
     @FXML
